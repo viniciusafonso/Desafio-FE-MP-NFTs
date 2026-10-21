@@ -309,34 +309,57 @@ function CouponForm({ couponCode, disabled, compact = false }: { couponCode: str
     apply.mutate(next)
   }
 
+  const field = (
+    <TextField
+      id="coupon-code"
+      label={compact ? 'Digite o código promocional…' : 'Código promocional'}
+      placeholder="Digite o código promocional…"
+      containerClassName={compact ? 'h-full min-w-0 flex-1' : 'min-w-0 flex-1'}
+      labelClassName={compact ? 'sr-only' : 'absolute top-0 left-0 text-sm font-bold'}
+      value={code}
+      autoComplete="off"
+      disabled={disabled || apply.isPending}
+      error={compact ? undefined : error ?? undefined}
+      aria-invalid={Boolean(error)}
+      aria-describedby={error ? 'coupon-code-error' : undefined}
+      className={compact ? `${kurioFieldClass} h-full rounded-full border-0 bg-transparent px-4 text-[13px] text-ellipsis aria-invalid:ring-0` : `${kurioFieldClass} rounded-r-none px-2 text-xs`}
+      onChange={(event) => {
+        setCode(event.target.value)
+        setLocalError(null)
+      }}
+    />
+  )
+  const action = (
+    <KurioButton type="submit"
+      style={compact ? { backgroundColor: 'transparent', backgroundImage: 'linear-gradient(93.11deg, rgba(210,138,76,.54) -.94%, #d28a4c 105.02%)' } : undefined}
+      className={compact ? '-my-px -mr-px h-[50px] w-[97px] shrink-0 rounded-full text-[15px] leading-4 font-bold text-[var(--kurio-fg)]' : 'h-10 px-4 text-sm font-bold'}
+      disabled={disabled || apply.isPending}>
+      {apply.isPending ? 'Aplicando…' : 'Aplicar'}
+    </KurioButton>
+  )
+  const removeAction = couponCode ? (
+    <button type="button" className="text-sm text-[var(--kurio-accent)]" disabled={remove.isPending} onClick={() => remove.mutate()}>
+      Remover cupom
+    </button>
+  ) : null
+
   return (
-    <form className={compact ? 'flex items-start gap-0' : 'relative flex items-start gap-0 pt-7'} onSubmit={onSubmit}>
-        <TextField
-        id="coupon-code"
-        label={compact ? 'Digite o código promocional…' : 'Código promocional'}
-        placeholder="Digite o código promocional…"
-        containerClassName="min-w-0 flex-1"
-        labelClassName={compact ? 'sr-only' : 'absolute top-0 left-0 text-sm font-bold'}
-        value={code}
-        autoComplete="off"
-        disabled={disabled || apply.isPending}
-        error={error ?? undefined}
-        className={compact ? `${kurioFieldClass} h-[50px] rounded-r-none rounded-l-[25px] border-r-0 px-4 text-[13px]` : `${kurioFieldClass} rounded-r-none px-2 text-xs`}
-        onChange={(event) => {
-          setCode(event.target.value)
-          setLocalError(null)
-        }}
-      />
-      <div className={compact ? 'flex flex-wrap gap-2' : 'flex flex-wrap gap-2'}>
-        <KurioButton type="submit" style={compact ? { backgroundColor: 'transparent', backgroundImage: 'linear-gradient(93.11deg, rgba(210,138,76,.54) -.94%, #d28a4c 105.02%)' } : undefined} className={compact ? 'h-[50px] w-[97px] rounded-[40px] bg-[linear-gradient(93.11deg,rgba(210,138,76,.54)_-.94%,#d28a4c_105.02%)] text-[15px] leading-4 font-bold text-[var(--kurio-fg)]' : 'h-10 px-4 text-sm font-bold'} disabled={disabled || apply.isPending}>
-          {apply.isPending ? 'Aplicando…' : 'Aplicar'}
-        </KurioButton>
-        {couponCode ? (
-          <button type="button" className="text-sm text-[var(--kurio-accent)]" disabled={remove.isPending} onClick={() => remove.mutate()}>
-            Remover cupom
-          </button>
-        ) : null}
-      </div>
+    <form className={compact ? 'flex flex-col items-start gap-2' : 'relative flex items-start gap-0 pt-7'} onSubmit={onSubmit}>
+      {compact ? (
+        <>
+          <div className={`flex h-[50px] w-full items-start rounded-full border ${error ? 'border-destructive' : 'border-[var(--kurio-border)]'} focus-within:border-[var(--kurio-accent)]`}>
+            {field}
+            {action}
+          </div>
+          {error ? <p id="coupon-code-error" role="alert" className="text-sm text-destructive">{error}</p> : null}
+          {removeAction}
+        </>
+      ) : (
+        <>
+          {field}
+          <div className="flex flex-wrap gap-2">{action}{removeAction}</div>
+        </>
+      )}
     </form>
   )
 }
