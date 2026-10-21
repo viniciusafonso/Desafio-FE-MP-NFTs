@@ -1,0 +1,199 @@
+{
+  "generatedAt": "2026-10-21T18:25:41.739Z",
+  "baseUrl": "https://desafio-fe-mp-nfts.vercel.app",
+  "environment": {
+    "node": "v24.22.0",
+    "platform": "darwin",
+    "osRelease": "25.5.0",
+    "architecture": "arm64",
+    "cpu": "Apple M3 Pro",
+    "memoryGiB": 18,
+    "chromium": "156.0.8078.4",
+    "lighthouse": "13.5.0"
+  },
+  "thresholds": {
+    "performance": 90,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 90
+  },
+  "targets": [
+    {
+      "name": "home-desktop",
+      "path": "/",
+      "formFactor": "desktop",
+      "runs": [
+        {
+          "performance": 99,
+          "accessibility": 97,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 937,
+          "cls": 0.0001,
+          "tbtMs": 0
+        },
+        {
+          "performance": 99,
+          "accessibility": 97,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 944,
+          "cls": 0.0001,
+          "tbtMs": 0
+        },
+        {
+          "performance": 99,
+          "accessibility": 97,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 927,
+          "cls": 0.0001,
+          "tbtMs": 0
+        }
+      ],
+      "medians": {
+        "performance": 99,
+        "accessibility": 97,
+        "best-practices": 100,
+        "seo": 100,
+        "lcpMs": 937,
+        "cls": 0.0001,
+        "tbtMs": 0
+      },
+      "meetsTargets": true
+    },
+    {
+      "name": "detail-desktop",
+      "path": "/nfts/nft_beija_flor",
+      "formFactor": "desktop",
+      "runs": [
+        {
+          "performance": 99,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 958,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "performance": 99,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 977,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "performance": 99,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 960,
+          "cls": 0,
+          "tbtMs": 0
+        }
+      ],
+      "medians": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100,
+        "lcpMs": 960,
+        "cls": 0,
+        "tbtMs": 0
+      },
+      "meetsTargets": true
+    },
+    {
+      "name": "home-mobile",
+      "path": "/",
+      "formFactor": "mobile",
+      "runs": [
+        {
+          "performance": 92,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 3087,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "performance": 91,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 3093,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "performance": 91,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 3095,
+          "cls": 0,
+          "tbtMs": 0
+        }
+      ],
+      "medians": {
+        "performance": 91,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100,
+        "lcpMs": 3093,
+        "cls": 0,
+        "tbtMs": 0
+      },
+      "meetsTargets": true
+    },
+    {
+      "name": "detail-mobile",
+      "path": "/nfts/nft_beija_flor",
+      "formFactor": "mobile",
+      "runs": [
+        {
+          "performance": 92,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 3083,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "performance": 92,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 3031,
+          "cls": 0,
+          "tbtMs": 0
+        },
+        {
+          "performance": 92,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100,
+          "lcpMs": 3034,
+          "cls": 0,
+          "tbtMs": 0
+        }
+      ],
+      "medians": {
+        "performance": 92,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100,
+        "lcpMs": 3034,
+        "cls": 0,
+        "tbtMs": 0
+      },
+      "meetsTargets": true
+    }
+  ],
+  "sourceCommit": "706dbf016ed5f2a7b7e13865bafb6c5c796ff23b"
+}

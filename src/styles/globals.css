@@ -3,6 +3,9 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+/* Relatórios versionados são evidências, não fontes de classes da aplicação. */
+@source not "../../reports";
+
 @font-face { font-family: 'Roboto Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/roboto-mono-400.woff2') format('woff2'); }
 @font-face { font-family: 'Roboto Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/roboto-mono-500.woff2') format('woff2'); }
 @font-face { font-family: 'Roboto Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/roboto-mono-700.woff2') format('woff2'); }

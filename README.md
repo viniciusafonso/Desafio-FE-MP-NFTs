@@ -177,6 +177,8 @@ As referências visuais de início, detalhe, carrinho e pagamento estão version
 
 `npm run build && npm run audit:lighthouse` mede início e detalhe, desktop e mobile, três vezes por combinação, com MSW, imagens, fontes e funcionalidades ativos. `reports/lighthouse` contém HTML, JSON, ambiente, medianas de Performance, Acessibilidade, Boas práticas, SEO, LCP, CLS e TBT. Para medir outra implantação: `LH_BASE_URL=https://desafio-fe-mp-nfts.vercel.app npm run audit:lighthouse`. `LH_TARGETS` e `LH_RUNS` permitem diagnósticos menores; a medição da entrega usa as quatro combinações e três execuções.
 
+Na medição pública de três execuções por combinação, a mediana de Performance foi 99 no início desktop, 99 no detalhe desktop, 91 no início mobile e 92 no detalhe mobile. Todas as combinações atingiram as metas do desafio. Consulte [as métricas e o ambiente](reports/lighthouse/lighthouse-summary.json) e [a validação da entrega](reports/validation.json).
+
 ## Publicação
 
 - [Aplicação na Vercel](https://desafio-fe-mp-nfts.vercel.app/)

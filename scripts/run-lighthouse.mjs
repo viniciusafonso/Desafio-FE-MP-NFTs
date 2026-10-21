@@ -1,10 +1,17 @@
 import desktopConfig from 'lighthouse/core/config/desktop-config.js'
-import { spawn } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { cpus, release, totalmem } from 'node:os'
 import lighthouse from 'lighthouse'
 import { launch } from 'chrome-launcher'
 import { chromium } from '@playwright/test'
+
+let sourceCommit = process.env.VERCEL_GIT_COMMIT_SHA
+try {
+  sourceCommit ??= execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim()
+} catch {
+  // Arquivos de código exportados podem não conter o histórico Git.
+}
 
 const port = 4174
 const baseUrl = process.env.LH_BASE_URL ?? `http://127.0.0.1:${port}`
@@ -114,50 +121,12 @@ try {
   await writeFile(new URL('lighthouse-summary.json', outputDir), JSON.stringify({
     generatedAt: new Date().toISOString(),
     baseUrl,
+    sourceCommit,
     environment: { node: process.version, platform: process.platform, osRelease: release(), architecture: process.arch, cpu: cpus()[0]?.model, memoryGiB: Math.round(totalmem() / 1024 ** 3), chromium: (await chromium.launch().then(async (browser) => { const version = browser.version(); await browser.close(); return version })), lighthouse: '13.5.0' },
     thresholds,
     targets: summary,
   }, null, 2))
 
-  const lines = [
-    '# Lighthouse',
-    '',
-    `${repeats} execuções por página e formato. Os valores abaixo são as medianas; os JSON completos preservam cada execução.`,
-    '',
-  ]
-  for (const result of summary) {
-    const misses = []
-    if (result.medians.performance < thresholds.performance) {
-      misses.push(
-        `Performance abaixo da meta: LCP mediano de ${result.medians.lcpMs} ms. Consulte os diagnósticos da execução para identificar as oportunidades; a medição mantém imagens, fontes, MSW e persistência ativos.`,
-      )
-    }
-    if (result.medians.accessibility < thresholds.accessibility) {
-      misses.push('Acessibilidade abaixo da meta: consulte os audits ARIA e de hierarquia de títulos no JSON desta execução.')
-    }
-    if (result.medians['best-practices'] < thresholds['best-practices']) {
-      misses.push('Boas práticas abaixo da meta: consulte os audits com score zero no JSON desta execução.')
-    }
-    if (result.medians.seo < thresholds.seo) {
-      misses.push('SEO abaixo da meta: consulte os audits de indexação no JSON desta execução.')
-    }
-    lines.push(
-      `## ${result.name}`,
-      '',
-      `- Performance: ${result.medians.performance}`,
-      `- Acessibilidade: ${result.medians.accessibility}`,
-      `- Boas práticas: ${result.medians['best-practices']}`,
-      `- SEO: ${result.medians.seo}`,
-      `- LCP: ${result.medians.lcpMs} ms`,
-      `- CLS: ${result.medians.cls}`,
-      `- TBT: ${result.medians.tbtMs} ms`,
-      `- Metas atendidas: ${result.meetsTargets ? 'sim' : 'não'}`,
-      '',
-      ...misses.map((miss) => `- Justificativa: ${miss}`),
-      ...(misses.length > 0 ? [''] : []),
-    )
-  }
-  await writeFile(new URL('results.md', outputDir), `${lines.join('\n')}\n`)
   if (summary.some((result) => !result.meetsTargets)) process.exitCode = 1
   console.log(JSON.stringify(summary.map(({ name, medians, meetsTargets }) => ({ name, medians, meetsTargets })), null, 2))
 } finally {

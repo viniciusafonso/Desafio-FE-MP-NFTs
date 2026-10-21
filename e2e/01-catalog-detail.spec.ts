@@ -8,13 +8,15 @@ test.beforeEach(async ({ page }) => {
 test.describe('01 · catálogo, URL e breakpoints', () => {
   test('mantém busca, ordenação e página na URL após recarregar', async ({ page }) => {
     await page.goto('/?q=Golden&sort=price-asc&page=2')
+    await expect(page.locator('[data-nft-id]:visible').first()).toContainText('Golden')
     await expect(page).toHaveURL(/q=Golden/)
     await page.reload()
+    await expect(page.locator('[data-nft-id]:visible').first()).toContainText('Golden')
     await expect(page).toHaveURL(/sort=price-asc/)
     await expect(page).toHaveURL(/page=2/)
 
-    await page.goto('/?page=3')
     if ((page.viewportSize()?.width ?? 0) >= 1024) {
+      await page.goto('/?page=3')
       await page.getByLabel('Ordenar por', { exact: true }).filter({ visible: true }).selectOption('title')
       await expect(page).toHaveURL(/sort=title/)
       await expect(page).not.toHaveURL(/page=3/)

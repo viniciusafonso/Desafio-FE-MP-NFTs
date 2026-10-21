@@ -114,7 +114,7 @@ As ações editoriais ainda sem destino funcional informam explicitamente que n�
 11. perfil e carteiras;
 12. tempo real e regressão visual.
 
-Cada teste abre um contexto isolado e restaura a simulação. Falhas preservam trace, screenshot e vídeo; o relatório HTML fica em `playwright-report`.
+Cada teste abre um contexto isolado e restaura a simulação. Casos exclusivos de uma composição são executados no projeto correspondente e marcados como não aplicáveis no outro formato; isso não representa um fluxo sem teste. Falhas preservam trace, screenshot e vídeo; o relatório HTML fica em `playwright-report`.
 
 ## Produção
 

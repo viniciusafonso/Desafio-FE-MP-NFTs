@@ -1,0 +1,47 @@
+{
+  "sourceCommit": "706dbf016ed5f2a7b7e13865bafb6c5c796ff23b",
+  "application": "https://desafio-fe-mp-nfts.vercel.app/",
+  "specification": "https://github.com/junglegaming/frontend-challenge/blob/7e0beff272078e43d70a4fe009033d41a99bf1d5/README.md",
+  "date": "2026-10-21",
+  "environment": {
+    "node": "v24.22.0",
+    "platform": "darwin",
+    "osRelease": "25.5.0",
+    "architecture": "arm64",
+    "cpu": "Apple M3 Pro",
+    "memoryGiB": 18,
+    "chromium": "156.0.8078.4",
+    "lighthouse": "13.5.0"
+  },
+  "playwright": {
+    "version": "1.64.1",
+    "passed": 112,
+    "failed": 0,
+    "formatSpecificNotApplicable": 12,
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "additionalWidths": [
+      414,
+      768,
+      1440
+    ],
+    "nativeZoom": 2,
+    "report": "playwright/index.html"
+  },
+  "checks": [
+    "TypeScript",
+    "ESLint",
+    "production build",
+    "direct route refresh",
+    "visual baselines"
+  ],
+  "lighthouse": "lighthouse/lighthouse-summary.json"
+}
