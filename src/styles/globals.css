@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@font-face { font-family: 'Roboto Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/roboto-mono-400.woff2') format('woff2'); }
+@font-face { font-family: 'Roboto Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/roboto-mono-500.woff2') format('woff2'); }
+@font-face { font-family: 'Roboto Mono'; font-style: normal; font-weight: 700; font-display: swap; src: url('/fonts/roboto-mono-700.woff2') format('woff2'); }
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+
+@keyframes greenmint-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--muted);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--foreground) 12%, transparent),
+    transparent
+  );
+  animation: greenmint-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}
+
+/* Autenticação Kurio: tokens compartilhados pelos frames mobile de login e cadastro. */
+.kurio-auth {
+  --kurio-bg: #140d0a;
+  --kurio-ink: #f5f1eb;
+  --kurio-line: #3f2319;
+  --kurio-gold: #b39463;
+  --kurio-action: #d28a4c;
+  --kurio-action-ink: #140d0a;
+  background: var(--kurio-bg);
+  color: var(--kurio-ink);
+  color-scheme: dark;
+}
+
+.kurio-home {
+  --kurio-ink: #140d0a;
+  --kurio-fg: #f5f1eb;
+  --kurio-primary: #d28a4c;
+  --kurio-accent: #e89b55;
+  --kurio-secondary: #cfb28c;
+  --kurio-muted: #b39463;
+  --kurio-card: #241612;
+  --kurio-dark: #38220f;
+  --kurio-border: #3f2319;
+  --kurio-border-soft: #55321f;
+  --kurio-font: 'Roboto Mono', ui-monospace, monospace;
+  --kurio-radius: 6px;
+  background: var(--kurio-ink);
+  color: var(--kurio-fg);
+  font-family: var(--kurio-font);
+  color-scheme: dark;
+}
+/* Figma typography also applies outside the marketplace shell (mobile auth). */
+.kurio-auth { font-family: 'Roboto Mono', ui-monospace, monospace; }
+.kurio-home :where(input, select, textarea, button),
+.kurio-auth :where(input, select, textarea, button) { font-family: inherit; }
+.kurio-home [data-slot="label"] { font-size: 15px; font-weight: 400; line-height: 20px; }
+.kurio-home input[type="radio"] { accent-color: var(--kurio-primary); }
+.kurio-home :focus-visible, .kurio-auth :focus-visible { outline: 2px solid #e89b55; outline-offset: 3px; }
+
+/* Auth fields indicate focus with their existing border, without a second ring. */
+.kurio-auth input:focus-visible { outline: none; box-shadow: none; border-color: var(--kurio-action); }
+
+/* The mobile search is a single rounded surface, without an inner focus box. */
+.kurio-home input[data-mobile-catalog-search]:focus-visible { outline: none; box-shadow: none; }
+
+/* Figma radio: 16px outer circle, 8px selected dot; keep native keyboard behavior. */
+.kurio-home input.kurio-radio {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin: 0;
+  border: 1.2px solid #55321f;
+  border-radius: 50%;
+  background: transparent;
+}
+.kurio-home input.kurio-radio:checked {
+  border-color: #d28a4c;
+  background: radial-gradient(circle, #d28a4c 0 4px, transparent 4px);
+}
+@media (forced-colors: active) {
+  .kurio-home input.kurio-radio { appearance: auto; }
+}
+
+/* Form controls use their own border as the visible keyboard focus indicator. */
+.kurio-home :is(input:not([type="radio"]):not([type="checkbox"]), select, textarea):focus-visible,
+.kurio-auth :is(input:not([type="radio"]):not([type="checkbox"]), select, textarea):focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-color: #d28a4c;
+  background-color: transparent;
+}
+
+/* The two existing price handles retain native keyboard range semantics. */
+.catalog-price-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+.catalog-price-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--kurio-ink);
+  border-radius: 50%;
+  background: var(--kurio-primary);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.catalog-price-range::-moz-range-thumb {
+  width: 9px;
+  height: 9px;
+  border: 3px solid var(--kurio-ink);
+  border-radius: 50%;
+  background: var(--kurio-primary);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.catalog-price-range:focus-visible {
+  outline: 2px solid var(--kurio-primary);
+  outline-offset: 4px;
+}

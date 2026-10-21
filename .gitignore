@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+playwright-report
+test-results
+*.local
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Diagnósticos intermediários, fora dos relatórios finais
+audits/profiling/
+# Capturas locais de configuração das contas
+audits/github-repository-created.png
+audits/vercel-connected.png
+# Auditorias e capturas permanecem locais; não publicar dados de sessões
+/audits/
+# Referências visuais geradas localmente
+/e2e/*-snapshots/

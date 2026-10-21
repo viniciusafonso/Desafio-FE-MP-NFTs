@@ -172,7 +172,7 @@ Decisões, fronteiras das camadas, estado, idempotência, tempo real e estratég
 
 ## Qualidade
 
-A última execução Playwright terminou com 100 testes aprovados e 12 não aplicáveis ao formato de tela, sem falhas. A suíte cobre 12 grupos e verificações adicionais em Chromium, nos projetos desktop (1440×1000) e mobile (390×844). Cada teste recebe um contexto isolado e restaura a base simulada. O relatório HTML, traces, vídeos e screenshots de falha ficam fora do código-fonte. A regressão visual cobre início, detalhe, carrinho e pagamento.
+A última execução Playwright terminou com 100 testes aprovados e 12 não aplicáveis ao formato de tela, sem falhas. A suíte cobre 12 grupos e verificações adicionais em Chromium, nos projetos desktop (1440×1000) e mobile (390×844). Cada teste recebe um contexto isolado e restaura a base simulada. O relatório HTML, traces, vídeos e screenshots de falha ficam fora do código-fonte. A regressão visual cobre início, detalhe, carrinho e pagamento. As imagens de referência permanecem locais: numa instalação nova, gere-as com `npm run test:e2e:update` antes da comparação. Os testes funcionais não dependem dessas capturas.
 
 `npm run audit:lighthouse` executa início e detalhe, desktop e mobile, três vezes por combinação. Os relatórios completos HTML e JSON e as medianas de Performance, Acessibilidade, Boas práticas, SEO, LCP, CLS e TBT são gravados em `audits`. Os números são produzidos pela execução local e não são preenchidos manualmente.
 
