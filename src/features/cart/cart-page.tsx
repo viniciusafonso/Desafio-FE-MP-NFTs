@@ -310,7 +310,7 @@ function CouponForm({ couponCode, disabled, compact = false }: { couponCode: str
   }
 
   return (
-    <form className={compact ? 'flex items-start gap-0' : 'relative flex items-end gap-0 pt-7'} onSubmit={onSubmit}>
+    <form className={compact ? 'flex items-start gap-0' : 'relative flex items-start gap-0 pt-7'} onSubmit={onSubmit}>
         <TextField
         id="coupon-code"
         label={compact ? 'Digite o código promocional…' : 'Código promocional'}
