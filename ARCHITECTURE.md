@@ -126,7 +126,7 @@ O endpoint de simulação `realtime-outage` fecha sockets ativos e recusa novas 
 
 ## Carregamento e transições de sessão
 
-O catálogo mobile reserva as dimensões dos cards com skeletons e shimmer, compartilhando a regra de movimento reduzido. Detalhe e resumo do carrinho também têm skeletons. O detalhe carrega a composição desktop sob demanda; o diálogo de filtros mobile só é importado quando solicitado. Assim a versão mobile não monta componentes desktop ocultos nem dispara suas consultas de itens relacionados e destaques. Fontes, imagens, MSW e eventos continuam ativos em ambos os formatos.
+O catálogo mobile reserva as dimensões dos cards com skeletons e shimmer, compartilhando a regra de movimento reduzido. Detalhe e resumo do carrinho também têm skeletons. O catálogo e o detalhe carregam suas composições desktop sob demanda; o diálogo de filtros mobile só é importado quando solicitado. Assim a versão mobile não monta componentes desktop ocultos nem dispara suas consultas de itens relacionados e destaques. Fontes, imagens, MSW e eventos continuam ativos em ambos os formatos.
 
 Antes de substituir a identidade autenticada, login, cadastro e logout cancelam consultas privadas em andamento e removem seu cache. Isso impede que uma resposta anônima iniciada no fundo do diálogo repovoe o carrinho após login. A suíte verifica expiração e retomada no checkout, incluindo a presença do item retornado pela API.
 

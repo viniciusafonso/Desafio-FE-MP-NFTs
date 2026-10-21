@@ -1,6 +1,7 @@
 import desktopConfig from 'lighthouse/core/config/desktop-config.js'
 import { spawn } from 'node:child_process'
 import { mkdir, writeFile } from 'node:fs/promises'
+import { cpus, release, totalmem } from 'node:os'
 import lighthouse from 'lighthouse'
 import { launch } from 'chrome-launcher'
 import { chromium } from '@playwright/test'
@@ -113,7 +114,7 @@ try {
   await writeFile(new URL('lighthouse-summary.json', outputDir), JSON.stringify({
     generatedAt: new Date().toISOString(),
     baseUrl,
-    environment: { node: process.version, platform: process.platform, architecture: process.arch, chromium: (await chromium.launch().then(async (browser) => { const version = browser.version(); await browser.close(); return version })), lighthouse: '13.5.0' },
+    environment: { node: process.version, platform: process.platform, osRelease: release(), architecture: process.arch, cpu: cpus()[0]?.model, memoryGiB: Math.round(totalmem() / 1024 ** 3), chromium: (await chromium.launch().then(async (browser) => { const version = browser.version(); await browser.close(); return version })), lighthouse: '13.5.0' },
     thresholds,
     targets: summary,
   }, null, 2))
@@ -157,6 +158,7 @@ try {
     )
   }
   await writeFile(new URL('results.md', outputDir), `${lines.join('\n')}\n`)
+  if (summary.some((result) => !result.meetsTargets)) process.exitCode = 1
   console.log(JSON.stringify(summary.map(({ name, medians, meetsTargets }) => ({ name, medians, meetsTargets })), null, 2))
 } finally {
   await chrome?.kill()

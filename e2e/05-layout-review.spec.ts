@@ -22,6 +22,8 @@ test('revisa os 15 frames com dados REST e sem estouro horizontal', async ({ pag
   }
   async function visit(path: string, name: string) {
     await page.goto(path)
+    await expect(page.locator('.kurio-home, .kurio-auth').first()).toBeVisible()
+    await expect(page.locator('h1:visible').first()).toBeVisible()
     await expect(page.locator('.skeleton:visible')).toHaveCount(0)
     await capture(name)
   }

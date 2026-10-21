@@ -1,6 +1,6 @@
 # Kurio
 
-Marketplace de NFTs do desafio de Frontend da Jungle Gaming. A sessão, o catálogo, o carrinho, o pagamento simulado, o tempo real, o perfil e as carteiras funcionam sobre contratos REST tipados e uma simulação MSW persistente. As nove rotas usam a identidade visual Kurio e possuem composições desktop e mobile.
+Marketplace de NFTs do [desafio de Frontend da Jungle Gaming](https://github.com/junglegaming/frontend-challenge/blob/main/README.md). A sessão, o catálogo, o carrinho, o pagamento simulado, o tempo real, o perfil e as carteiras funcionam sobre contratos REST tipados e uma simulação MSW persistente. As nove rotas usam a identidade visual Kurio e possuem composições desktop e mobile.
 
 ## Requisitos
 
@@ -155,7 +155,7 @@ Consultas em geral ficam frescas por 30 segundos, tentam de novo uma vez e não 
 
 ## Organização
 
-- `src/app`: providers, cache do TanStack Query e casca temporária das rotas
+- `src/app`: providers, cache do TanStack Query e estados globais das rotas
 - `src/routes`: rotas do TanStack Router
 - `src/features`: catálogo, conta, perfil, carteiras, carrinho e checkout
 - `src/components/ui`: componentes do shadcn/ui
@@ -173,7 +173,7 @@ Validação da entrega: 112 verificações aprovadas no navegador, além de lint
 
 `npm run test:e2e` executa os fluxos em Chromium desktop (1440×1000) e mobile (390×844), incluindo verificações em 768 px e zoom nativo de 200% em perfis descartáveis. A suíte cobre catálogo e histórico da URL, estados HTTP/rede, detalhe, favoritos, adoção do carrinho, cupons, validação, conexão simulada, idempotência, recuperação, recibo, sessão, perfil, carteiras e eventos. Cada teste usa contexto isolado e restaura a simulação.
 
-As referências visuais de início, detalhe, carrinho e pagamento estão versionadas em `e2e/04-account-realtime-visual.spec.ts-snapshots`. `npm run test:e2e:update` atualiza essas imagens após uma alteração visual intencional. O relatório HTML é gerado em `playwright-report`; falhas preservam screenshot, vídeo e trace em `test-results`. Esses arquivos de execução são gerados localmente, sem dados de sessões reais no repositório.
+As referências visuais de início, detalhe, carrinho e pagamento estão versionadas em `e2e/04-account-realtime-visual.spec.ts-snapshots`. `npm run test:e2e:update` atualiza essas imagens após uma alteração visual intencional. O relatório HTML é gerado em `playwright-report`; falhas preservam screenshot, vídeo e trace em `test-results`. O relatório da validação pública está em `reports/playwright` e pode ser aberto com `npx playwright show-report reports/playwright`. Arquivos de execução usam apenas os dados fictícios da simulação.
 
 `npm run build && npm run audit:lighthouse` mede início e detalhe, desktop e mobile, três vezes por combinação, com MSW, imagens, fontes e funcionalidades ativos. `reports/lighthouse` contém HTML, JSON, ambiente, medianas de Performance, Acessibilidade, Boas práticas, SEO, LCP, CLS e TBT. Para medir outra implantação: `LH_BASE_URL=https://desafio-fe-mp-nfts.vercel.app npm run audit:lighthouse`. `LH_TARGETS` e `LH_RUNS` permitem diagnósticos menores; a medição da entrega usa as quatro combinações e três execuções.
 
