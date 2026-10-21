@@ -7,14 +7,11 @@ Marketplace de NFTs do desafio de Frontend da Jungle Gaming. A sessão, o catál
 - Node.js 24 ou superior
 - npm 11
 
-## Revisão dos 15 layouts
-
-As capturas e relatórios de auditoria permanecem locais e não são enviados ao repositório público. Os resultados e limites estão em [docs/DELIVERY.md](docs/DELIVERY.md). Gere as capturas com `npx playwright test e2e/05-layout-review.spec.ts`.
-
 ## Scripts
 
 ```bash
-npm install
+npm ci
+npx playwright install chromium
 npm run dev
 npm run typecheck
 npm run lint
@@ -166,19 +163,27 @@ Consultas em geral ficam frescas por 30 segundos, tentam de novo uma vez e não 
 - `src/realtime`: cliente Socket.IO, versões dos eventos e avisos
 - `src/mocks`: handlers, fixtures, pedidos e estado do MSW
 - `e2e`: Playwright
-- `audits`: Lighthouse
+- `reports/lighthouse`: relatórios HTML/JSON, medianas e ambiente do Lighthouse
 
 Decisões, fronteiras das camadas, estado, idempotência, tempo real e estratégia de testes estão em [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 
-## Qualidade
+## Qualidade e reprodução
 
-A última execução Playwright terminou com 100 testes aprovados e 12 não aplicáveis ao formato de tela, sem falhas. A suíte cobre 12 grupos e verificações adicionais em Chromium, nos projetos desktop (1440×1000) e mobile (390×844). Cada teste recebe um contexto isolado e restaura a base simulada. O relatório HTML, traces, vídeos e screenshots de falha ficam fora do código-fonte. A regressão visual cobre início, detalhe, carrinho e pagamento. As imagens de referência permanecem locais: numa instalação nova, gere-as com `npm run test:e2e:update` antes da comparação. Os testes funcionais não dependem dessas capturas.
+Validação da entrega: 112 verificações aprovadas no navegador, além de lint, TypeScript e build de produção.
 
-`npm run audit:lighthouse` executa início e detalhe, desktop e mobile, três vezes por combinação. Os relatórios completos HTML e JSON e as medianas de Performance, Acessibilidade, Boas práticas, SEO, LCP, CLS e TBT são gravados em `audits`. Os números são produzidos pela execução local e não são preenchidos manualmente.
+`npm run test:e2e` executa os fluxos em Chromium desktop (1440×1000) e mobile (390×844), incluindo verificações em 768 px e zoom nativo de 200% em perfis descartáveis. A suíte cobre catálogo e histórico da URL, estados HTTP/rede, detalhe, favoritos, adoção do carrinho, cupons, validação, conexão simulada, idempotência, recuperação, recibo, sessão, perfil, carteiras e eventos. Cada teste usa contexto isolado e restaura a simulação.
+
+As referências visuais de início, detalhe, carrinho e pagamento estão versionadas em `e2e/04-account-realtime-visual.spec.ts-snapshots`. `npm run test:e2e:update` atualiza essas imagens após uma alteração visual intencional. O relatório HTML é gerado em `playwright-report`; falhas preservam screenshot, vídeo e trace em `test-results`. Esses arquivos de execução são gerados localmente, sem dados de sessões reais no repositório.
+
+`npm run build && npm run audit:lighthouse` mede início e detalhe, desktop e mobile, três vezes por combinação, com MSW, imagens, fontes e funcionalidades ativos. `reports/lighthouse` contém HTML, JSON, ambiente, medianas de Performance, Acessibilidade, Boas práticas, SEO, LCP, CLS e TBT. Para medir outra implantação: `LH_BASE_URL=https://desafio-fe-mp-nfts.vercel.app npm run audit:lighthouse`. `LH_TARGETS` e `LH_RUNS` permitem diagnósticos menores; a medição da entrega usa as quatro combinações e três execuções.
 
 ## Publicação
 
-`vercel.json` reescreve rotas desconhecidas para `index.html`, para o refresh direto funcionar na Vercel. O repositório público é [viniciusafonso/Desafio-FE-MP-NFTs](https://github.com/viniciusafonso/Desafio-FE-MP-NFTs). A publicação do site ainda está em preparação.
+- [Aplicação na Vercel](https://desafio-fe-mp-nfts.vercel.app/)
+- [Repositório público](https://github.com/viniciusafonso/Desafio-FE-MP-NFTs)
+- [Decisões e contratos](ARCHITECTURE.md)
+
+`vercel.json` reescreve rotas da SPA para `index.html`, permitindo acesso direto e refresh. A demonstração usa dados e transações fictícios persistidos no próprio navegador. O repositório inclui o lockfile, a configuração de build e `.env.example`.
 
 ### Campos do pagamento
 
@@ -190,4 +195,4 @@ Perfil exige nome, e-mail, usuário, ENS e apelido da carteira. Carteiras indepe
 
 `POST /api/simulation/realtime-outage` com `{ "durationMs": 1500 }` interrompe os sockets existentes e recusa reconexões durante esse intervalo. Os testes concluem um pedido ou alteram um NFT durante a interrupção e verificam a recuperação via REST depois da reconexão.
 
-O Lighthouse usa o perfil desktop oficial e o perfil mobile padrão, mantendo as metas do desafio. A meta de Performance mobile ainda não foi atingida; consulte os relatórios em `audits` antes de considerar a entrega concluída.
+O Lighthouse usa o perfil desktop oficial e o perfil mobile padrão. As metas e os resultados medidos ficam no resumo de `reports/lighthouse`.

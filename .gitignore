@@ -36,5 +36,3 @@ audits/github-repository-created.png
 audits/vercel-connected.png
 # Auditorias e capturas permanecem locais; não publicar dados de sessões
 /audits/
-# Referências visuais geradas localmente
-/e2e/*-snapshots/

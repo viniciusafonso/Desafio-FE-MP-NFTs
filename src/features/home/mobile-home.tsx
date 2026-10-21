@@ -1,11 +1,14 @@
-import { Dialog } from 'radix-ui'
 import { nftSlug } from '@/api/contracts/catalog'
 import { Link } from '@tanstack/react-router'
 import { Search } from 'lucide-react'
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import type { CatalogSearch, NftSummary } from '@/api/contracts/catalog'
 import { FavoriteButton } from '@/features/catalog/favorite-button'
 import { MobileNavIcon, MobileTabBar } from '@/features/home/mobile-chrome'
+
+import { MobileCatalogSkeleton } from '@/features/catalog/catalog-skeleton'
+
+const MobileCatalogFilters = lazy(() => import('@/features/catalog/mobile-catalog-filters'))
 
 export function MobileHome({
   query,
@@ -33,6 +36,7 @@ export function MobileHome({
 }) {
   const [draft, setDraft] = useState(query)
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const filterTrigger = useRef<HTMLButtonElement>(null)
   const sentinel = useRef<HTMLDivElement>(null)
   const requesting = useRef(false)
   useEffect(() => { requesting.current = false }, [items.length, search.q, search.sort, search.category, search.network, search.minPrice, search.maxPrice])
@@ -67,25 +71,22 @@ export function MobileHome({
             onChange={(event) => setDraft(event.target.value)}
           />
         </label>
-        <Dialog.Root open={filtersOpen} onOpenChange={setFiltersOpen}><Dialog.Trigger asChild><button
-          type="button"
-          aria-label="Filtros do catálogo"
-          className="flex size-[45px] shrink-0 items-center justify-center rounded-[14px] bg-[linear-gradient(137.05deg,rgba(210,138,76,.45)_-24.6%,#d28a4c_100%)] text-[var(--kurio-ink)]"
-        >
+        <button type="button" ref={filterTrigger} aria-label="Filtros do catálogo"
+          aria-haspopup="dialog" aria-expanded={filtersOpen} aria-controls={filtersOpen ? 'mobile-catalog-filters' : undefined}
+          onClick={() => setFiltersOpen(true)}
+          onFocus={() => { void import('@/features/catalog/mobile-catalog-filters') }}
+          className="flex size-[45px] shrink-0 items-center justify-center rounded-[14px] bg-[linear-gradient(137.05deg,rgba(210,138,76,.45)_-24.6%,#d28a4c_100%)] text-[var(--kurio-ink)]">
           <MobileNavIcon kind="filter" />
-        </button></Dialog.Trigger><Dialog.Portal><Dialog.Overlay className="fixed inset-0 z-50 bg-black/60" /><Dialog.Content className="kurio-home fixed bottom-0 left-1/2 z-50 max-h-[85svh] w-full max-w-[414px] -translate-x-1/2 overflow-y-auto rounded-t-[24px] p-5 shadow-xl">
-          <div className="mb-4 flex items-center justify-between"><Dialog.Title className="text-lg font-bold">Filtros</Dialog.Title><Dialog.Close aria-label="Fechar filtros" className="flex size-9 items-center justify-center text-xl">×</Dialog.Close></div>
-          <Dialog.Description className="sr-only">Filtre os NFTs por coleção, faixa de preço e rede.</Dialog.Description>
-          {filters}
-        </Dialog.Content></Dialog.Portal></Dialog.Root>
+        </button>
+        {filtersOpen ? <Suspense fallback={null}><MobileCatalogFilters onClose={() => setFiltersOpen(false)} triggerRef={filterTrigger}>{filters}</MobileCatalogFilters></Suspense> : null}
       </form>
       <section className="relative h-[190px] overflow-hidden rounded-[30px] bg-[linear-gradient(104.74deg,rgba(210,138,76,.2),rgba(210,138,76,.1))] px-4 pt-2 pb-4 shadow-[0_12px_30px_rgba(10,6,4,.45)]">
         <span aria-hidden="true" className="absolute -top-[31px] -left-20 size-[248px] rounded-full bg-[linear-gradient(160deg,rgba(221,154,95,.43),rgba(210,138,76,.04))]" />
         <span aria-hidden="true" className="absolute -top-[10px] left-[73px] size-[248px] rounded-full bg-[linear-gradient(160deg,rgba(221,154,95,.37),transparent)]" />
         <div className="relative z-10 w-[calc(100%_-_146px)]">
-          <p className="text-xs leading-4 font-medium">Bem-vindo à Kurio</p>
-          <h1 className="mt-1.5 text-[18px] leading-[29px] font-medium">SEJA DONO DA CULTURA DIGITAL</h1>
-          <p className="mt-2 text-[12px] leading-[18px] text-[var(--kurio-secondary)]">
+          <p className="text-xs leading-4 font-normal">Bem-vindo à Kurio</p>
+          <h1 className="mt-1 text-[18px] leading-[29px] font-medium">SEJA DONO DA CULTURA DIGITAL</h1>
+          <p className="mt-1.5 text-[12px] leading-[18px] text-[var(--kurio-secondary)]">
             Descubra NFTs selecionados de criadores do mundo todo.
           </p>
           <a href="#mercado-mobile" className="mt-1 inline-flex items-center gap-2 text-[12px] font-bold text-[var(--kurio-accent)]">
@@ -111,7 +112,7 @@ export function MobileHome({
             alt=""
             width={58}
             height={58}
-            className="absolute right-[82px] bottom-[34px] size-[58px] rounded-[17px] border-2 border-[var(--kurio-card)] object-cover"
+            className="absolute right-[82px] bottom-[34px] size-[58px] rounded-[17px] object-cover"
           />
         ) : null}
         <div className="absolute bottom-[7px] left-1/2 flex -translate-x-1/2 gap-1.5" aria-hidden="true">
@@ -133,7 +134,7 @@ export function MobileHome({
       </div>
       <h2 className="sr-only">Catálogo</h2>
       <div id="mercado-mobile" data-catalog-status={status}>
-        {status === 'loading' ? <p aria-busy="true">Carregando o catálogo.</p> : null}
+        {status === 'loading' ? <MobileCatalogSkeleton /> : null}
         {status === 'error' || status === 'auth' ? (
           <div className="flex flex-col items-start gap-3">
             <p role="alert">{authRequired ? 'Entre para ver os seus favoritos.' : errorMessage}</p>
@@ -191,7 +192,7 @@ function MobileNftCard({
             height={168}
             decoding="async"
             fetchPriority={priority ? 'high' : 'auto'}
-            className="size-[168px] rounded-[16px] object-cover"
+            className={`aspect-square w-full max-w-[168px] rounded-[16px] object-cover ${staggered ? 'translate-y-1' : '-translate-y-1'}`}
           />
         </span>
         <h3 className="mt-2 truncate px-2 text-[15px] leading-5 font-normal">{nft.title}</h3>

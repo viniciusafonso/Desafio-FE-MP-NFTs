@@ -118,8 +118,18 @@ Cada teste abre um contexto isolado e restaura a simulação. Falhas preservam t
 
 ## Produção
 
-`VITE_ENABLE_MOCKS=false` permite substituir a simulação por uma API real sem mudar componentes. `VITE_API_BASE_URL` altera a origem do Axios. `vercel.json` redireciona rotas desconhecidas para `index.html`, permitindo refresh direto da SPA. A aplicação ainda não foi publicada.
+`VITE_ENABLE_MOCKS=false` permite substituir a simulação por uma API real sem mudar componentes. `VITE_API_BASE_URL` altera a origem do Axios. `vercel.json` redireciona rotas desconhecidas para `index.html`, permitindo refresh direto da SPA. O deploy público está em https://desafio-fe-mp-nfts.vercel.app/.
 
 ## Verificação de reconexão
 
 O endpoint de simulação `realtime-outage` fecha sockets ativos e recusa novas conexões por um intervalo limitado. Os testes alteram o recurso durante esse intervalo e verificam a recuperação REST na reconexão. O cliente de socket e os handlers do binding são carregados sob demanda, depois da configuração dos mocks HTTP.
+
+## Carregamento e transições de sessão
+
+O catálogo mobile reserva as dimensões dos cards com skeletons e shimmer, compartilhando a regra de movimento reduzido. Detalhe e resumo do carrinho também têm skeletons. O detalhe carrega a composição desktop sob demanda; o diálogo de filtros mobile só é importado quando solicitado. Assim a versão mobile não monta componentes desktop ocultos nem dispara suas consultas de itens relacionados e destaques. Fontes, imagens, MSW e eventos continuam ativos em ambos os formatos.
+
+Antes de substituir a identidade autenticada, login, cadastro e logout cancelam consultas privadas em andamento e removem seu cache. Isso impede que uma resposta anônima iniciada no fundo do diálogo repovoe o carrinho após login. A suíte verifica expiração e retomada no checkout, incluindo a presença do item retornado pela API.
+
+As baselines são referências da implementação revisada; detectam regressões e não constituem uma medição automática de igualdade com o Figma. Capturas integrais do arquivo de design e auditorias intermediárias não fazem parte dos assets publicados.
+
+O teste de zoom usa uma extensão mínima somente no perfil Chromium descartável para chamar `chrome.tabs.setZoom(2)`. Confirma a redução real da viewport CSS e o aumento de `devicePixelRatio`, exercita navegação, filtros, perfil, carteiras e compra até o recibo. A extensão não é incluída no build da aplicação.

@@ -26,9 +26,10 @@ export function nftQueryOptions(nftId: string) {
   })
 }
 
-export function useHighlights() {
+export function useHighlights(enabled = true) {
   return useQuery({
     queryKey: catalogKeys.highlights,
+    enabled,
     queryFn: ({ signal }) => listHighlights(signal),
     retry: catalogRetry,
   })

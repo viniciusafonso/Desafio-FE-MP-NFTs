@@ -11,6 +11,11 @@ export function clearPrivateQueries(queryClient: QueryClient) {
   })
 }
 
+export async function prepareSessionChange(queryClient: QueryClient) {
+  await queryClient.cancelQueries({ predicate: (query) => query.meta?.scope === 'private' })
+  clearPrivateQueries(queryClient)
+}
+
 export async function signOut(queryClient: QueryClient) {
   try {
     if (readSessionToken()) {
@@ -20,6 +25,7 @@ export async function signOut(queryClient: QueryClient) {
     // A sessão local termina mesmo quando a simulação já não reconhece o token.
   }
 
+  await prepareSessionChange(queryClient)
   clearSessionToken()
   clearOrderAttempt()
   clearPrivateQueries(queryClient)

@@ -29,9 +29,9 @@ export function CatalogPage({ search, backdrop = false }: CatalogPageProps) {
   const navigate = useNavigate({ from: '/' })
   const router = useRouter()
   const location = useLocation()
-  const highlights = useHighlights()
-  const list = useCatalogList(search)
   const desktop = useDesktopAuth()
+  const highlights = useHighlights(desktop)
+  const list = useCatalogList(search)
   const previousPages = useQueries({ queries: Array.from({ length: desktop ? 0 : Math.max(0, (search.page ?? 1) - 1) }, (_, index) => {
     const pageSearch = { ...search, page: index + 1 > 1 ? index + 1 : undefined }
     return { queryKey: catalogKeys.list(pageSearch), queryFn: ({ signal }: { signal: AbortSignal }) => listNfts(pageSearch, signal) }

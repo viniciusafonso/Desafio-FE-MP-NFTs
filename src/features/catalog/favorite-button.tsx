@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { isApiRequestError } from '@/api/errors'
 import { Button } from '@/components/ui/button'
@@ -35,7 +36,7 @@ export function FavoriteButton({ nftId, className, heart = false, iconOnly = fal
       <div className="flex flex-col items-start gap-1">
         <button
           type="button"
-          className={`${kurioClass} ${className ?? ''}`}
+          className={cn(kurioClass, className)}
           aria-label={label}
           aria-pressed={session.status === 'authenticated' ? saved : undefined}
           disabled={pending}

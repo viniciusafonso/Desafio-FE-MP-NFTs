@@ -13,7 +13,7 @@ import {
   GoogleMark,
   PasswordField,
 } from '@/features/account/auth-controls'
-import { accountSessionKey } from '@/features/account/session'
+import { accountSessionKey, prepareSessionChange } from '@/features/account/session'
 import { adoptGuestCartIfAny } from '@/features/cart/cart-state'
 
 type LoginFormProps = {
@@ -34,6 +34,7 @@ export function LoginForm({ redirectTo, notice, surface = 'phone' }: LoginFormPr
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: async (session) => {
+      await prepareSessionChange(queryClient)
       saveSessionToken(session.token)
       queryClient.setQueryData(accountSessionKey, {
         user: session.user,

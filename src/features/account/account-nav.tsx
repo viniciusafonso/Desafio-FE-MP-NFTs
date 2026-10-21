@@ -74,7 +74,7 @@ export function AccountFrame({ children }: { children: ReactNode }) {
   return (
     <div className="flex w-full flex-col gap-7 lg:flex-row lg:items-start">
       <AccountNav />
-      <div className="min-w-0 flex-1">{children}</div>
+      <main className="min-w-0 flex-1">{children}</main>
     </div>
   )
 }

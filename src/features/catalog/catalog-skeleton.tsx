@@ -40,3 +40,18 @@ export function NftDetailSkeleton() {
     </div>
   )
 }
+
+export function MobileCatalogSkeleton() {
+  return (
+    <div className="grid grid-cols-2 gap-x-4 gap-y-6" aria-busy="true" aria-label="Carregando o catálogo">
+      <p role="status" className="sr-only">Carregando o catálogo.</p>
+      {Array.from({ length: 6 }, (_, index) => (
+        <div key={index} className={index % 2 ? 'translate-y-8' : undefined} aria-hidden="true">
+          <div className="skeleton h-[200px] w-full rounded-[20px]" />
+          <div className="skeleton mt-2 h-5 w-4/5 rounded-md" />
+          <div className="skeleton h-4 w-1/2 rounded-md" />
+        </div>
+      ))}
+    </div>
+  )
+}

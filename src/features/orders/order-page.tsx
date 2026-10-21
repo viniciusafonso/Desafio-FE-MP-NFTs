@@ -149,11 +149,11 @@ function ConfirmedReceipt({ receipt }: { receipt: OrderReceipt }) {
         </dl>
         <div className="px-6 pt-5 sm:px-11">
           <h2 className="text-sm font-bold">Detalhes da transação</h2>
-          <div className="mt-2 grid grid-cols-[minmax(0,1fr)_70px_100px] border-b border-[var(--kurio-border-soft)] pb-2 text-base"><span>NFTs</span><span>Edições</span><span className="text-right">Subtotal</span></div>
+          <div className="mt-2 grid grid-cols-[minmax(0,1fr)_48px_80px] sm:grid-cols-[minmax(0,1fr)_70px_100px] border-b border-[var(--kurio-border-soft)] pb-2 text-base"><span>NFTs</span><span>Edições</span><span className="text-right">Subtotal</span></div>
           <ul className="mt-3 flex flex-col gap-3">
-            {receipt.items.map((item) => <li key={`${item.nftId}-${item.editionId}`} className="grid grid-cols-[minmax(0,1fr)_70px_100px] items-center gap-1">
-              <div className="flex min-w-0 items-center gap-3"><img src={item.imageUrl} alt={item.imageAlt} className="size-[70px] rounded-[6px] object-cover" /><div className="min-w-0"><h3 className="text-base font-bold">{item.title}</h3><p className="text-sm text-[var(--kurio-muted)]">ID do token: #{item.title.split('#')[1]?.padStart(4, '0')}</p></div></div>
-              <span className="text-sm text-[var(--kurio-secondary)]">(× {item.quantity})</span><strong className="text-right text-lg text-[var(--kurio-accent)]">{item.lineTotalEth} ETH</strong>
+            {receipt.items.map((item) => <li key={`${item.nftId}-${item.editionId}`} className="grid grid-cols-[minmax(0,1fr)_48px_80px] sm:grid-cols-[minmax(0,1fr)_70px_100px] items-center gap-1">
+              <div className="flex min-w-0 items-center gap-3"><img src={item.imageUrl} alt={item.imageAlt} className="size-10 shrink-0 rounded-[6px] object-cover sm:size-[70px]" /><div className="min-w-0"><h3 className="text-sm font-bold break-words sm:text-base">{item.title}</h3><p className="text-xs break-words text-[var(--kurio-muted)] sm:text-sm">ID do token: #{item.title.split('#')[1]?.padStart(4, '0')}</p></div></div>
+              <span className="text-sm text-[var(--kurio-secondary)]">(× {item.quantity})</span><strong className="text-right text-sm text-[var(--kurio-accent)] sm:text-lg">{item.lineTotalEth} ETH</strong>
             </li>)}
           </ul>
           <dl className="mt-4 ml-auto grid max-w-[322px] grid-cols-2 gap-y-2 text-base">

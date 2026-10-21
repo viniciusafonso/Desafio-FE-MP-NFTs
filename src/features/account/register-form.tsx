@@ -13,7 +13,7 @@ import {
   GoogleMark,
   PasswordField,
 } from '@/features/account/auth-controls'
-import { accountSessionKey } from '@/features/account/session'
+import { accountSessionKey, prepareSessionChange } from '@/features/account/session'
 import { adoptGuestCartIfAny } from '@/features/cart/cart-state'
 
 export function RegisterForm({ surface = 'phone', redirectTo }: { surface?: 'phone' | 'dialog'; redirectTo?: string }) {
@@ -30,6 +30,7 @@ export function RegisterForm({ surface = 'phone', redirectTo }: { surface?: 'pho
   const registerMutation = useMutation({
     mutationFn: register,
     onSuccess: async (session) => {
+      await prepareSessionChange(queryClient)
       saveSessionToken(session.token)
       queryClient.setQueryData(accountSessionKey, {
         user: session.user,

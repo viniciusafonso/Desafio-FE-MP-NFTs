@@ -6,8 +6,8 @@ import { launch } from 'chrome-launcher'
 import { chromium } from '@playwright/test'
 
 const port = 4174
-const baseUrl = `http://127.0.0.1:${port}`
-const outputDir = new URL(process.env.LH_OUTPUT_DIR ?? '../audits/', import.meta.url)
+const baseUrl = process.env.LH_BASE_URL ?? `http://127.0.0.1:${port}`
+const outputDir = new URL(process.env.LH_OUTPUT_DIR ?? '../reports/lighthouse/', import.meta.url)
 const repeats = Math.max(1, Math.min(3, Number(process.env.LH_RUNS ?? 3)))
 const categories = ['performance', 'accessibility', 'best-practices', 'seo']
 const targets = [
@@ -49,7 +49,7 @@ async function waitForServer() {
 }
 
 await mkdir(outputDir, { recursive: true })
-const preview = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port)], {
+const preview = process.env.LH_BASE_URL ? undefined : spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', String(port)], {
   stdio: 'inherit',
   env: process.env,
 })
@@ -112,6 +112,8 @@ try {
 
   await writeFile(new URL('lighthouse-summary.json', outputDir), JSON.stringify({
     generatedAt: new Date().toISOString(),
+    baseUrl,
+    environment: { node: process.version, platform: process.platform, architecture: process.arch, chromium: (await chromium.launch().then(async (browser) => { const version = browser.version(); await browser.close(); return version })), lighthouse: '13.5.0' },
     thresholds,
     targets: summary,
   }, null, 2))
@@ -126,7 +128,7 @@ try {
     const misses = []
     if (result.medians.performance < thresholds.performance) {
       misses.push(
-        `Performance abaixo da meta: LCP mediano de ${result.medians.lcpMs} ms. O relatório bruto aponta descoberta tardia do elemento LCP e JavaScript não usado; nesta entrega, o MSW e o banco IndexedDB também precisam iniciar antes dos dados REST.`,
+        `Performance abaixo da meta: LCP mediano de ${result.medians.lcpMs} ms. Consulte os diagnósticos da execução para identificar as oportunidades; a medição mantém imagens, fontes, MSW e persistência ativos.`,
       )
     }
     if (result.medians.accessibility < thresholds.accessibility) {
@@ -154,9 +156,9 @@ try {
       ...(misses.length > 0 ? [''] : []),
     )
   }
-  await writeFile(new URL('README.md', outputDir), `${lines.join('\n')}\n`)
+  await writeFile(new URL('results.md', outputDir), `${lines.join('\n')}\n`)
   console.log(JSON.stringify(summary.map(({ name, medians, meetsTargets }) => ({ name, medians, meetsTargets })), null, 2))
 } finally {
   await chrome?.kill()
-  preview.kill('SIGTERM')
+  preview?.kill('SIGTERM')
 }
