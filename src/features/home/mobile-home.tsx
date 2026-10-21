@@ -39,12 +39,23 @@ export function MobileHome({
   const filterTrigger = useRef<HTMLButtonElement>(null)
   const sentinel = useRef<HTMLDivElement>(null)
   const requesting = useRef(false)
+  const unloading = useRef(false)
+  useEffect(() => {
+    const stopPaging = () => { unloading.current = true }
+    const resumePaging = () => { unloading.current = false }
+    window.addEventListener('beforeunload', stopPaging)
+    window.addEventListener('pageshow', resumePaging)
+    return () => {
+      window.removeEventListener('beforeunload', stopPaging)
+      window.removeEventListener('pageshow', resumePaging)
+    }
+  }, [])
   useEffect(() => { requesting.current = false }, [items.length, search.q, search.sort, search.category, search.network, search.minPrice, search.maxPrice])
   useEffect(() => {
     const element = sentinel.current
     if (!element || !hasNext) return
     const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting) && !requesting.current) {
+      if (entries.some((entry) => entry.isIntersecting) && !requesting.current && !unloading.current) {
         requesting.current = true
         onNextPage()
       }

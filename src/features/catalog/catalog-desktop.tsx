@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { nftSlug, catalogSorts, type CatalogSearch, type NftSummary } from '@/api/contracts/catalog'
 import { isApiRequestError } from '@/api/errors'
 import { cn } from 'cn'
@@ -27,6 +27,10 @@ type DesktopCatalogProps = {
 }
 
 export default function DesktopCatalog({ backdrop, hash, search, onSearch, apply, filters, featured, highlightsPending, list, items, authRequired, returnTo }: DesktopCatalogProps) {
+  useEffect(() => {
+    if (hash === 'mercado' || hash === 'diario') document.getElementById(hash)?.scrollIntoView({ block: 'start' })
+  }, [hash])
+
   return (
     <main className={cn("mx-auto hidden w-full max-w-[1440px] flex-col px-6 py-6 lg:flex xl:px-[120px]", backdrop ? "gap-11" : "gap-16 xl:gap-24")}>
 

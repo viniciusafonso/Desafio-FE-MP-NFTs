@@ -83,7 +83,7 @@ export function CatalogPage({ search, backdrop = false }: CatalogPageProps) {
         filters={filters}
         hasNext={Boolean(list.data && list.data.page < list.data.totalPages && !list.isFetching && previousPages.every((query) => query.isSuccess && !query.isFetching))}
         onNextPage={() => {
-          if (router.state.location.pathname !== '/' || router.state.status !== 'idle') return
+          if (router.state.location.pathname !== '/' || router.state.location.searchStr !== location.searchStr || router.state.status !== 'idle') return
           void navigate({ search: (current) => ({ ...current, page: (current.page ?? 1) + 1 }), resetScroll: false })
         }}
         items={mobileItems}

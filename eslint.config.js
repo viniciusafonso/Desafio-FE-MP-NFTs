@@ -12,6 +12,7 @@ export default tseslint.config(
       'audits',
       'test-results',
       'playwright-report',
+      'reports',
       'public/mockServiceWorker.js',
     ],
   },
